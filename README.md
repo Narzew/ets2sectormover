@@ -8,6 +8,7 @@ Thanks: ScuL -> for explaining sector structure
 Usage:
 
 `ruby SectorMover.rb folder swap_x swap_y`
+
 where:
 folder -> folder containing .desc, .base and .aux files with sectors
 swap_x -> sector x value to swap (integer)
@@ -19,6 +20,7 @@ will move europe map 200 sectors east and 100 sectors north
 
 Sector structure:
 `sec<+|->XXXX<+|>YYYY.<base|desc|aux>`
+
 First sign: - => sectors go West(-)
 First sign: + => sectors go East (+)
 Second sign: - => sectors go North (-)
