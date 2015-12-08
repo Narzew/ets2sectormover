@@ -80,7 +80,7 @@ module SectorMover
 		result_y = make_fourdigit(base_y+y)
 		
 		result = "sec#{result_x}#{result_y}.#{base_ext}"
-		#print "#{filename} => #{result}\n"
+		print "#{filename} => #{result}\n"
 		return result
 	end
 	
@@ -98,8 +98,7 @@ module SectorMover
 			next if x == "." || x == ".." || File.directory?(x)
 			next unless ["base","desc","aux"].include?(x.split(".")[-1])
 			next unless x.include?("sec")
-			newfilename = "#{folder}/"+SectorMover.swap_sector(x,swap_x,swap_y)
-			#FileUtils.mv(filename,"#{folder}/"+SectorMover.swap_sector(x,swap_x,swap_y))
+			FileUtils.mv(filename,"#{folder}/"+SectorMover.swap_sector(x,swap_x,swap_y))
 		}
 	end
 end
@@ -109,48 +108,30 @@ end
 #=============================================
 
 begin
-	
-	#SectorMover.swap_all("bolivia3.1",400,400)
-	sec_a = "sec+0004-0005.desc"
-	sec_b = "sec-0017+0125.aux"
-	enc_a = SectorMover.swap_sector(sec_a,16,-5)
-	enc_b = SectorMover.swap_sector(sec_b,-19,800)
-	dec_a = SectorMover.swap_sector(enc_a,-16,5)
-	dec_b = SectorMover.swap_sector(enc_b,19,-800)
-	
-	#cor_a = SectorMover.swap_sector(SectorMover.swap_sector(sec_a,200,200),-200,-200)
-	#cor_b = SectorMover.swap_sector(SectorMover.swap_sector(sec_b,-300,-300),300,300)
-	
-	puts "SEC A: #{sec_a}"
-	puts "SEC B: #{sec_b}"
-	puts "ENC A: #{enc_a}"
-	puts "ENC B: #{enc_b}"
-	puts "DEC A: #{dec_a}"
-	puts "DEC B: #{dec_b}"
-	if sec_a == dec_a
-		puts "SEC A CONVERT SUCCESS"
-	else
-		puts "SEC A CONVERT FAILED"
-	end
-	if sec_b == dec_b
-		puts "SEC B CONVERT SUCCESS"
-	else
-		puts "SEC B CONVERT FAILED"
-	end
-	
-	#puts SectorMover.swap_sector("sec+0004-0005.desc", 200, 200)
-	#puts SectorMover.swap_sector("sec+0004-0005.desc", -200, -200)
-end
-
-=begin
 	if ARGV.size != 3
-		print "Sector Mover v 1.00 by Narzew\n"
-		print "Usage: SectorMover.rb folder swap_x swap_y\n"
+		print "#=============================================\n"
+		print "#**ETS2 Sector Mover by Narzew\n"
+		print "#**v 1.00\n"
+		print "#**08.12.2015\n"
+		print "#**http://github.com/narzew/ets2sectormover\n"
+		print "#=============================================\n"
+		print "#**Usage:\n"
+		print "#**ruby SectorMover.rb folder swap_x swap_y\n"
+		print "#**folder -> folder containing .desc, .base\n#**and.aux files\n"
+		print "#**swap_x -> sector x value to swap (integer)\n"
+		print "#**swap_y -> sector y value to swap (integer)\n"
+		print "#**For example:\n#**ruby SectorMover.rb europe 200 -100\n"
+		print "#**will move europe map 200 sectors east\n#**and 100 sectors north\n"
+		print "#=============================================\n"
 	else
 		folder = ARGV[0]
+		raise "Directory not exists" unless Dir.exist?(folder)
 		swap_x = ARGV[1].to_i
 		swap_y = ARGV[2].to_i
 		Dir.mkdir("backup") unless Dir.exist?("backup")
 		FileUtils.cp_r(folder,"backup")
+		SectorMover.swap_all(folder,swap_x,swap_y)
 	end
-=end
+rescue =>e 
+	print "Error: #{e}\n"
+end
