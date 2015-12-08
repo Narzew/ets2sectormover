@@ -15,7 +15,8 @@ swap_x -> sector x value to swap (integer)
 swap_y -> sector y value to swap (integer)
 
 For example:
-ruby SectorMover.rb europe 200 -100
+`ruby SectorMover.rb europe 200 -100`
+
 will move europe map 200 sectors east and 100 sectors north
 
 Sector structure:
